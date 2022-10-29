@@ -1,1 +1,38 @@
-<p>campo-de-batalla works!</p>
+<div class="campo-de-batalla" *ngFor="let fila of tablero">
+  <div class="celda" *ngFor="let celda of fila">
+    <img
+      *ngIf="celda === 'monster'"
+      src="https://cdn-icons-png.flaticon.com/512/1236/1236363.png"
+      alt="monster"
+    />
+    <img
+      *ngIf="celda === 'player'"
+      src="https://as2.ftcdn.net/v2/jpg/04/16/05/91/1000_F_416059158_5JNzVQ13hlQl0rF5kTMNv05Cn0p4mSci.jpg"
+      alt="monster"
+    />
+    <img
+      *ngIf="celda === 'hole'"
+      src="https://as2.ftcdn.net/v2/jpg/03/50/93/33/1000_F_350933333_WCxXBGn4x5PMkcJmSgeaprdo5xT8QdNm.jpg"
+      alt="monster"
+    />
+    <img
+      *ngIf="celda === 'lingote'"
+      src="https://as1.ftcdn.net/v2/jpg/04/63/63/84/1000_F_463638447_cApSv1DRPZUwiNmwDYgX3hf1TpbprV4c.jpg"
+      alt="monster"
+    />
+  </div>
+</div>
+<div class="buttons-div">
+  <button (click)="moveUp()" class="button-direction">Arriba</button>
+  <button (click)="moveDown()" class="button-direction">Abajo</button>
+  <button (click)="moveRight()" class="button-direction">Derecha</button>
+  <button (click)="moveLeft()" class="button-direction">Izquierda</button>
+  <button (click)="reset()" class="button-direction">Reiniciar tablero</button>
+</div>
+<div class="buttons-div">
+  <button class="button-direction">Arriba</button>
+  <button class="button-direction">Abajo</button>
+  <button class="button-direction">Derecha</button>
+  <button class="button-direction">Izquierda</button>
+  <button class="button-direction">Reiniciar tablero</button>
+</div>

@@ -1,0 +1,52 @@
+.campo-de-batalla {
+  display: flex;
+  border: 1px solid black;
+}
+
+.celda {
+  border: 1px solid black;
+  height: 100px;
+  width: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.rojo {
+  background-color: red;
+}
+.azul {
+  background-color: blueviolet;
+}
+
+.amarillo {
+  background-color: yellow;
+}
+
+.verde {
+  background-color: green;
+}
+
+img {
+  height: 40px;
+  width: auto;
+}
+
+.buttons-div {
+  margin: 50px auto;
+  display: flex;
+  width: 100%;
+  justify-content: center;
+}
+
+.button-direction {
+  display: inline-flex;
+  padding: 5px 10px;
+  background-color: pink;
+  color: white;
+  justify-content: center;
+  align-items: center;
+}
+
+.button-direction + .button-direction {
+  margin-left: 10px;
+}
