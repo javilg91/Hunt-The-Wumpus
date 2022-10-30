@@ -7,15 +7,20 @@ import { empty } from 'rxjs';
   styleUrls: ['./campo-de-batalla.component.css'],
 })
 export class CampoDeBatallaComponent implements OnInit {
-  columnas = 0;
+  columnas = 5;
   filas = this.columnas;
-  monsters = 0;
-  holes = 0;
+  monsters = 2;
+  holes = 3;
+  finish = false;
+  win = false;
+  gamePlay = false;
   gameMenu = true;
+  playerMessage = false;
   lingoteAtrapado = false;
   rightRotation = 0;
   leftRotation = 0;
-  imagen = document.getElementsByTagName('img');
+  imagen = document.querySelector('#player');
+  message = document.querySelectorAll('#player-message');
 
   tablero = Array(this.filas)
     .fill('')
@@ -27,12 +32,16 @@ export class CampoDeBatallaComponent implements OnInit {
 
   constructor() {}
   ngOnInit(): void {
+    this.message = this.message;
     console.log(this.tablero);
-    console.log('imagen', this.imagen);
+    console.log('mensaje', this.message);
   }
 
   public reset() {
+    console.log('imagen', this.imagen);
     this.gameMenu = false;
+    this.gamePlay = true;
+    this.finish = false;
     this.filas = this.columnas;
     this.tablero = Array(this.filas)
       .fill('')
@@ -60,6 +69,52 @@ export class CampoDeBatallaComponent implements OnInit {
     console.log(this.getPlayer());
   }
 
+  public rotationToRight() {
+    this.rightRotation = +1;
+    console.log('rotationrigth', this.rightRotation);
+  }
+
+  public rotationToLeft() {
+    this.leftRotation = +1;
+    console.log('rotationrigth', this.leftRotation);
+  }
+
+  /* Función para desplazar el jugador hacia abajo */
+  private moveTo(fila: number, columna: number) {
+    /* Le restamos 1 posición */
+    if (this.tablero[fila][columna] === 'empty') {
+      this.tablero[this.posicionJugador.fila][this.posicionJugador.columna] =
+        'empty';
+      this.tablero[fila][columna] = 'player';
+    } else if (this.tablero[fila][columna] === 'lingote') {
+      this.tablero[fila][columna] = 'empty';
+      this.tablero[fila][columna] = 'player';
+      this.tablero[this.posicionJugador.fila][this.posicionJugador.columna] =
+        'empty';
+      this.lingoteAtrapado = true;
+      console.log('Lingote', this.lingoteAtrapado);
+    } else if (
+      this.lingoteAtrapado == true &&
+      this.tablero[this.filas - 1][0] == 'player'
+    ) {
+      console.log(this.lingoteAtrapado);
+      this.getPlayer();
+      this.gamePlay = false;
+      this.finish = true;
+      this.win = true;
+    } else if (
+      this.tablero[fila][columna] === 'monster' ||
+      this.tablero[fila][columna] === 'hole'
+    ) {
+      this.gamePlay = false;
+      this.finish = true;
+      this.win = false;
+    }
+    this.getPlayer();
+
+    console.log('tablero..', this.tablero);
+  }
+
   public moveUp() {
     this.moveTo(this.posicionJugador.fila - 1, this.posicionJugador.columna);
   }
@@ -76,44 +131,6 @@ export class CampoDeBatallaComponent implements OnInit {
     this.moveTo(this.posicionJugador.fila, this.posicionJugador.columna + 1);
   }
 
-  public rotationToRight() {
-    this.rightRotation = +1;
-    console.log('rotationrigth', this.rightRotation);
-  }
-
-  public rotationToLeft() {
-    this.leftRotation = +1;
-    console.log('rotationrigth', this.leftRotation);
-  }
-
-  /* Función para desplazar el jugador hacia abajo */
-  private moveTo(fila: number, columna: number) {
-    /* Le restamos 1 posición */
-    if (this.tablero[fila][columna] === 'empty') {
-      this.tablero[fila][columna] = 'player';
-      this.tablero[this.posicionJugador.fila][this.posicionJugador.columna] =
-        'empty';
-    } else if (this.tablero[fila][columna] === 'monster') {
-      alert('estas muerto');
-    } else if (this.tablero[fila][columna] === 'hole') {
-      alert('estas muerto');
-    } else if (this.tablero[fila][columna] === 'lingote') {
-      this.tablero[fila][columna] = 'empty';
-      this.lingoteAtrapado = true;
-      console.log('Lingote', this.lingoteAtrapado);
-    } else if (
-      (this.tablero[this.filas - 1][0] =
-        'player' && this.lingoteAtrapado === true)
-    ) {
-      this.getPlayer();
-      console.log(this.lingoteAtrapado);
-      alert('has ganado');
-    }
-
-    this.getPlayer();
-    console.log('tablero..', this.tablero);
-  }
-
   public getPlayer() {
     for (let i = 0; i < this.tablero.length; i++) {
       for (let j = 0; j < this.tablero[i].length; j++) {
@@ -122,6 +139,12 @@ export class CampoDeBatallaComponent implements OnInit {
         }
       }
     }
+  }
+
+  public gameSettings() {
+    this.gameMenu = true;
+    this.gamePlay = false;
+    this.finish = false;
   }
 
   getRandomInt = (max: number) => {

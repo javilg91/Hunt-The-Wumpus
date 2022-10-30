@@ -1,96 +1,181 @@
-<div *ngIf="gameMenu === false">
-  <div class="campo-de-batalla" *ngFor="let fila of tablero">
-    <div class="celda" *ngFor="let celda of fila">
-      <img
-        *ngIf="celda === 'monster'"
-        src="https://cdn-icons-png.flaticon.com/512/1236/1236363.png"
-        alt="monster"
-      />
-      <img
-        [ngClass]="{
-          'right-rotation': rightRotation > 0,
-          'left-rotation': leftRotation > 0
-        }"
-        *ngIf="celda === 'player'"
-        src="https://as2.ftcdn.net/v2/jpg/04/16/05/91/1000_F_416059158_5JNzVQ13hlQl0rF5kTMNv05Cn0p4mSci.jpg"
-        alt="monster"
-      />
-      <img
-        *ngIf="celda === 'hole'"
-        src="https://as2.ftcdn.net/v2/jpg/03/50/93/33/1000_F_350933333_WCxXBGn4x5PMkcJmSgeaprdo5xT8QdNm.jpg"
-        alt="monster"
-      />
-      <img
-        *ngIf="celda === 'lingote'"
-        src="https://as1.ftcdn.net/v2/jpg/04/63/63/84/1000_F_463638447_cApSv1DRPZUwiNmwDYgX3hf1TpbprV4c.jpg"
-        alt="monster"
-      />
+<div class="container-div" *ngIf="gamePlay === true">
+  <!-- <audio
+    controls
+    src="/Hunt-The-Wumpus/src/assets/media/001216897_prev.mp3"
+    type="audio/mp3"
+  ></audio> -->
+  <div>
+    <div class="campo-de-batalla" id="filas" *ngFor="let fila of tablero">
+      <div class="celda" *ngFor="let celda of fila">
+        <img
+          *ngIf="celda === 'monster'"
+          src="https://cdn-icons-png.flaticon.com/512/1236/1236363.png"
+          alt="monster"
+        />
+        <img
+          id="player"
+          *ngIf="celda === 'player'"
+          src="https://as2.ftcdn.net/v2/jpg/04/16/05/91/1000_F_416059158_5JNzVQ13hlQl0rF5kTMNv05Cn0p4mSci.jpg"
+          alt="monster"
+        />
+        <img
+          *ngIf="celda === 'hole'"
+          src="https://as2.ftcdn.net/v2/jpg/03/50/93/33/1000_F_350933333_WCxXBGn4x5PMkcJmSgeaprdo5xT8QdNm.jpg"
+          alt="monster"
+        />
+        <img
+          *ngIf="celda === 'lingote'"
+          src="https://as1.ftcdn.net/v2/jpg/04/63/63/84/1000_F_463638447_cApSv1DRPZUwiNmwDYgX3hf1TpbprV4c.jpg"
+          alt="monster"
+        />
+
+        <div
+          id="player-message"
+          class="player-message"
+          *ngIf="celda === 'player'"
+        >
+          Aquí huele raro
+        </div>
+        <div
+          id="player-message"
+          class="player-message"
+          *ngIf="celda === 'player' && playerMessage"
+        >
+          Aquí huele raro
+        </div>
+        <div
+          id="player-message"
+          class="player-message"
+          *ngIf="celda === 'player'"
+        >
+          Aquí huele raro
+        </div>
+      </div>
     </div>
   </div>
+  <div class="celda-inicial">SALIDA</div>
   <div class="buttons-div">
-    <button (click)="moveUp()" class="button-direction">Arriba</button>
-    <button (click)="moveDown()" class="button-direction">Abajo</button>
-    <button (click)="moveRight()" class="button-direction">Derecha</button>
-    <button (click)="moveLeft()" class="button-direction">Izquierda</button>
-    <button (click)="reset()" class="button-direction">
-      Reiniciar tablero
+    <button (click)="moveUp()" class="button-game">
+      <svg
+        class="w-6 h-6"
+        fill="none"
+        stroke="currentColor"
+        viewBox="0 0 24 24"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          d="M5 10l7-7m0 0l7 7m-7-7v18"
+        ></path>
+      </svg>
     </button>
-  </div>
-  <div class="buttons-div">
-    <button (click)="rotationToRight()" class="button-rotation">
-      Girar a la derecha
+    <button (click)="moveDown()" class="button-game">
+      <svg
+        class="w-6 h-6"
+        fill="none"
+        stroke="currentColor"
+        viewBox="0 0 24 24"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          d="M19 14l-7 7m0 0l-7-7m7 7V3"
+        ></path>
+      </svg>
     </button>
-    <button (click)="rotationToLeft()" class="button-rotation">
-      Girar a la izquierda
+    <button (click)="moveLeft()" class="button-game">
+      <svg
+        class="w-6 h-6"
+        fill="none"
+        stroke="currentColor"
+        viewBox="0 0 24 24"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          d="M10 19l-7-7m0 0l7-7m-7 7h18"
+        ></path>
+      </svg>
     </button>
+    <button (click)="moveRight()" class="button-game">
+      <svg
+        class="w-6 h-6"
+        fill="none"
+        stroke="currentColor"
+        viewBox="0 0 24 24"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          d="M14 5l7 7m0 0l-7 7m7-7H3"
+        ></path>
+      </svg>
+    </button>
+    <button (click)="reset()" class="button-game">Reset game</button>
+    <button (click)="gameSettings()" class="button-game">Game settings</button>
   </div>
 </div>
-<div *ngIf="gameMenu === true" id="game-menu" class="menu-container">
+<div *ngIf="gameMenu === true" id="game-menu" class="container-div">
   <div class="menu">
     <h1>Hunt The Wumpus</h1>
     <h2>Game Mode</h2>
-    <form action="" class="form-game">
-      <label for="column"
-        >Columns size
+    <form action="">
+      <div class="form-game">
+        <div class="separation-div">
+          <label for="column">Columns size: </label>
+          <label for="monster">Monsters: </label>
+          <label for="hole">Holes: </label>
+        </div>
+        <div class="separation-div">
+          <input
+            id="column"
+            name="column"
+            min="3"
+            max="6"
+            default="3"
+            required
+            type="number"
+            [(ngModel)]="columnas"
+          />
 
-        <input
-          id="column"
-          name="column"
-          min="3"
-          max="6"
-          default="3"
-          required
-          type="number"
-          [(ngModel)]="columnas"
-        />
-      </label>
-      <label for="monster"
-        >Monsters
+          <input
+            id="monster"
+            name="monster"
+            min="1"
+            max="4"
+            required
+            type="number"
+            [(ngModel)]="monsters"
+          />
 
-        <input
-          id="monster"
-          name="monster"
-          min="1"
-          max="4"
-          required
-          type="number"
-          [(ngModel)]="monsters"
-        />
-      </label>
-      <label for="hole"
-        >Holes
-
-        <input
-          id="hole"
-          name="hole"
-          required
-          type="number"
-          min="1"
-          max="3"
-          [(ngModel)]="holes"
-        />
-      </label>
-      <button (click)="reset()" class="form-button">Start Game</button>
+          <input
+            id="hole"
+            name="hole"
+            required
+            type="number"
+            min="1"
+            max="3"
+            [(ngModel)]="holes"
+          />
+        </div>
+      </div>
+      <button (click)="reset()" class="button-game">Start Game</button>
     </form>
+  </div>
+</div>
+<div *ngIf="finish === true" id="finish" class="menu-container">
+  <h1 *ngIf="win === true">CONGRATULATIONS!! YOU WON</h1>
+  <h1 *ngIf="win === false">YOU LOSE!!</h1>
+  <div class="buttons-div">
+    <button (click)="reset()" class="button-game">Reset game</button>
+    <button (click)="gameSettings()" class="button-game">Game settings</button>
   </div>
 </div>

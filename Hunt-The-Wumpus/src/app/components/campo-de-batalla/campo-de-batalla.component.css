@@ -9,6 +9,18 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  position: relative;
+}
+
+.player-message {
+  position: absolute;
+  top: -10px;
+  right: -50px;
+  z-index: 50;
+  background-color: rgb(200, 200, 209);
+  border-radius: 10px;
+  padding: 10px;
+  font-size: 13px;
 }
 .rojo {
   background-color: red;
@@ -29,21 +41,40 @@ img {
   height: 40px;
   width: auto;
 }
+.celda-inicial {
+  width: 100%;
+  text-align: left;
+  margin-left: 60px;
+  margin-top: 10px;
+}
 
 .buttons-div {
   margin: 50px auto;
   display: flex;
   width: 100%;
   justify-content: center;
+  position: relative;
 }
 
-.button-direction {
+.button-game {
   display: inline-flex;
   padding: 5px 10px;
   background-color: pink;
   color: white;
   justify-content: center;
   align-items: center;
+  border: 0;
+  border-radius: 19px;
+  cursor: pointer;
+  height: 25px;
+}
+
+.button-game + .button-game {
+  margin-left: 10px;
+}
+.button-game:hover {
+  background-color: rgb(110, 110, 222);
+  transition-duration: 0.2ms;
 }
 
 .button-direction + .button-direction {
@@ -62,12 +93,14 @@ img {
   animation: rotate 1s ease-in-out 0s;
 }
 
-.menu-container {
-  height: 100vh;
+.container-div {
+  height: 100%;
   display: flex;
+  flex-direction: column;
   align-items: center;
   width: 100%;
   justify-content: center;
+  margin-top: 150px;
 }
 
 .menu {
@@ -93,11 +126,31 @@ img {
   margin: auto;
 }
 
+form input {
+  width: 40px;
+  margin-bottom: 10px;
+  display: block;
+  margin: 0 auto 10px auto;
+}
+
+svg {
+  height: 20px;
+  width: auto;
+}
+
+.form-game {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 30px;
+}
+.separation-div {
+  width: 50%;
+}
 .menu label {
   display: block;
   margin-bottom: 5px;
   padding-left: 3px;
-  text-align: start;
+  text-align: center;
 }
 
 @keyframes rotate {
