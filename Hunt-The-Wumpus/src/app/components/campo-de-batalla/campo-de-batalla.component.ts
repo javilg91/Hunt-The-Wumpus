@@ -7,10 +7,15 @@ import { empty } from 'rxjs';
   styleUrls: ['./campo-de-batalla.component.css'],
 })
 export class CampoDeBatallaComponent implements OnInit {
-  filas = 5;
-  columnas = 8;
-  monsters = 2;
-  pozos = 3;
+  columnas = 0;
+  filas = this.columnas;
+  monsters = 0;
+  holes = 0;
+  gameMenu = true;
+  lingoteAtrapado = false;
+  rightRotation = 0;
+  leftRotation = 0;
+  imagen = document.getElementsByTagName('img');
 
   tablero = Array(this.filas)
     .fill('')
@@ -20,40 +25,33 @@ export class CampoDeBatallaComponent implements OnInit {
     columna: 0,
   };
 
-  /*  */
-  getPlayer = () => {};
-
   constructor() {}
   ngOnInit(): void {
-    this.getPlayer = () => {
-      for (let i = 0; i < this.tablero.length; i++) {
-        for (let j = 0; j < this.tablero[i].length; j++) {
-          if (this.tablero[i][j] === 'player') {
-            this.posicionJugador = { fila: i, columna: j };
-          }
-        }
-      }
-
-      console.log('posicionJugador :', this.posicionJugador);
-    };
-
     console.log(this.tablero);
+    console.log('imagen', this.imagen);
   }
 
   public reset() {
+    this.gameMenu = false;
+    this.filas = this.columnas;
     this.tablero = Array(this.filas)
       .fill('')
       .map(() => Array(this.columnas).fill('empty'));
+    this.lingoteAtrapado = false;
+    console.log('lingote inicio ', this.lingoteAtrapado);
+
     this.tablero[this.filas - 1][0] = 'player';
 
-    const position = this.getRandomPosition();
-    this.tablero[position.fila][position.columna] = 'lingote';
+    if (this.lingoteAtrapado === false) {
+      const position = this.getRandomPosition();
+      this.tablero[position.fila][position.columna] = 'lingote';
+    }
 
     for (let i = 0; i < this.monsters; i++) {
       const position = this.getRandomPosition();
       this.tablero[position.fila][position.columna] = 'monster';
     }
-    for (let i = 0; i < this.pozos; i++) {
+    for (let i = 0; i < this.holes; i++) {
       const position = this.getRandomPosition();
       this.tablero[position.fila][position.columna] = 'hole';
     }
@@ -78,6 +76,16 @@ export class CampoDeBatallaComponent implements OnInit {
     this.moveTo(this.posicionJugador.fila, this.posicionJugador.columna + 1);
   }
 
+  public rotationToRight() {
+    this.rightRotation = +1;
+    console.log('rotationrigth', this.rightRotation);
+  }
+
+  public rotationToLeft() {
+    this.leftRotation = +1;
+    console.log('rotationrigth', this.leftRotation);
+  }
+
   /* Función para desplazar el jugador hacia abajo */
   private moveTo(fila: number, columna: number) {
     /* Le restamos 1 posición */
@@ -85,20 +93,37 @@ export class CampoDeBatallaComponent implements OnInit {
       this.tablero[fila][columna] = 'player';
       this.tablero[this.posicionJugador.fila][this.posicionJugador.columna] =
         'empty';
-      this.getPlayer();
     } else if (this.tablero[fila][columna] === 'monster') {
       alert('estas muerto');
     } else if (this.tablero[fila][columna] === 'hole') {
       alert('estas muerto');
+    } else if (this.tablero[fila][columna] === 'lingote') {
+      this.tablero[fila][columna] = 'empty';
+      this.lingoteAtrapado = true;
+      console.log('Lingote', this.lingoteAtrapado);
+    } else if (
+      (this.tablero[this.filas - 1][0] =
+        'player' && this.lingoteAtrapado === true)
+    ) {
+      this.getPlayer();
+      console.log(this.lingoteAtrapado);
+      alert('has ganado');
     }
-    console.log('hacia arriba');
-    console.log(this.tablero);
+
+    this.getPlayer();
+    console.log('tablero..', this.tablero);
   }
 
-  /* FUNCIONES DEL EJERCICIO */
+  public getPlayer() {
+    for (let i = 0; i < this.tablero.length; i++) {
+      for (let j = 0; j < this.tablero[i].length; j++) {
+        if (this.tablero[i][j] === 'player') {
+          this.posicionJugador = { fila: i, columna: j };
+        }
+      }
+    }
+  }
 
-  /* Función para obtener número aleatorio. La utilizaremos para ordenar a los personajes cada partida */
-  /* The above code is creating a function that will move the player up, down, right, and left. */
   getRandomInt = (max: number) => {
     return Math.floor(Math.random() * max);
   };

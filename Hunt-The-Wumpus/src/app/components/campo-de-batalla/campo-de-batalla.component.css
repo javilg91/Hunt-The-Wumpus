@@ -1,12 +1,11 @@
 .campo-de-batalla {
   display: flex;
-  border: 1px solid black;
 }
 
 .celda {
   border: 1px solid black;
-  height: 100px;
-  width: 100px;
+  height: 120px;
+  width: 120px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -49,4 +48,63 @@ img {
 
 .button-direction + .button-direction {
   margin-left: 10px;
+}
+
+.right-rotation {
+  transform: rotate(90deg);
+}
+
+.left-rotation {
+  transform: rotate(-45deg);
+}
+
+.right-rotation:focus {
+  animation: rotate 1s ease-in-out 0s;
+}
+
+.menu-container {
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  justify-content: center;
+}
+
+.menu {
+  border-radius: 19px;
+  padding: 30px;
+  background-color: green;
+  width: 50%;
+  min-width: 500px;
+  text-align: center;
+}
+
+.menu h1 {
+  color: white;
+  text-transform: capitalize;
+  font-size: 40px;
+}
+.menu h2 {
+  font-size: 30px;
+}
+
+.menu form {
+  width: 70%;
+  margin: auto;
+}
+
+.menu label {
+  display: block;
+  margin-bottom: 5px;
+  padding-left: 3px;
+  text-align: start;
+}
+
+@keyframes rotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
 }
