@@ -3,4 +3,5 @@ html,
 body,
 app-root {
   height: 100%;
+  background-color: bisque;
 }

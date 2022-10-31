@@ -4,7 +4,7 @@
     src="/Hunt-The-Wumpus/src/assets/media/001216897_prev.mp3"
     type="audio/mp3"
   ></audio> -->
-  <div>
+  <div class="tablero-div">
     <div class="campo-de-batalla" id="filas" *ngFor="let fila of tablero">
       <div class="celda" *ngFor="let celda of fila">
         <img
@@ -14,6 +14,7 @@
         />
         <img
           id="player"
+          [style]="posicion()"
           *ngIf="celda === 'player'"
           src="https://as2.ftcdn.net/v2/jpg/04/16/05/91/1000_F_416059158_5JNzVQ13hlQl0rF5kTMNv05Cn0p4mSci.jpg"
           alt="monster"
@@ -32,28 +33,36 @@
         <div
           id="player-message"
           class="player-message"
-          *ngIf="celda === 'player'"
+          *ngIf="celda === 'player' && playerMessage === true"
         >
-          Aquí huele raro
+          what is that smell?
         </div>
         <div
           id="player-message"
           class="player-message"
-          *ngIf="celda === 'player' && playerMessage"
+          *ngIf="celda === 'player' && ingotMessage === true"
         >
-          Aquí huele raro
+          Got it!
         </div>
         <div
-          id="player-message"
           class="player-message"
-          *ngIf="celda === 'player'"
+          *ngIf="celda === 'player' && monsterMessage === true"
         >
-          Aquí huele raro
+          Dead!
+        </div>
+        <div
+          class="player-message"
+          *ngIf="celda === 'player' && arrowMessage === true"
+        >
+          I have no arrows!
         </div>
       </div>
     </div>
+    <div class="celda-inicial">
+      <p>EXIT BOX</p>
+      <p>Arrows: {{ arrows }}</p>
+    </div>
   </div>
-  <div class="celda-inicial">SALIDA</div>
   <div class="buttons-div">
     <button (click)="moveUp()" class="button-game">
       <svg
@@ -121,6 +130,7 @@
     </button>
     <button (click)="reset()" class="button-game">Reset game</button>
     <button (click)="gameSettings()" class="button-game">Game settings</button>
+    <button (click)="throwArrow()" class="button-game">Throw arrow</button>
   </div>
 </div>
 <div *ngIf="gameMenu === true" id="game-menu" class="container-div">
@@ -128,52 +138,50 @@
     <h1>Hunt The Wumpus</h1>
     <h2>Game Mode</h2>
     <form action="">
-      <div class="form-game">
-        <div class="separation-div">
-          <label for="column">Columns size: </label>
-          <label for="monster">Monsters: </label>
-          <label for="hole">Holes: </label>
-        </div>
-        <div class="separation-div">
-          <input
-            id="column"
-            name="column"
-            min="3"
-            max="6"
-            default="3"
-            required
-            type="number"
-            [(ngModel)]="columnas"
-          />
-
-          <input
-            id="monster"
-            name="monster"
-            min="1"
-            max="4"
-            required
-            type="number"
-            [(ngModel)]="monsters"
-          />
-
-          <input
-            id="hole"
-            name="hole"
-            required
-            type="number"
-            min="1"
-            max="3"
-            [(ngModel)]="holes"
-          />
-        </div>
+      <div class="input-div">
+        <label for="column">Columns size: </label>
+        <input
+          id="column"
+          name="column"
+          min="3"
+          max="6"
+          default="3"
+          required
+          type="number"
+          [(ngModel)]="columnas"
+        />
+      </div>
+      <div class="input-div">
+        <label for="monster">Arrows: </label>
+        <input
+          id="arrow"
+          name="arrow"
+          min="1"
+          max="10"
+          required
+          type="number"
+          [(ngModel)]="arrows"
+        />
+      </div>
+      <div class="input-div">
+        <label for="hole">Holes: </label>
+        <input
+          id="hole"
+          name="hole"
+          required
+          type="number"
+          min="1"
+          max="3"
+          [(ngModel)]="holes"
+        />
       </div>
       <button (click)="reset()" class="button-game">Start Game</button>
     </form>
   </div>
 </div>
 <div *ngIf="finish === true" id="finish" class="menu-container">
-  <h1 *ngIf="win === true">CONGRATULATIONS!! YOU WON</h1>
-  <h1 *ngIf="win === false">YOU LOSE!!</h1>
+  <h1 *ngIf="win === true">MISSION ACCOMPLISHED</h1>
+  <h1 *ngIf="win === false">¡¡YOU LOST!!</h1>
   <div class="buttons-div">
     <button (click)="reset()" class="button-game">Reset game</button>
     <button (click)="gameSettings()" class="button-game">Game settings</button>
